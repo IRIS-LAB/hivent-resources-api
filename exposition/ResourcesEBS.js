@@ -4,12 +4,18 @@ import { ResourceBE } from '../objects/business/be/ResourceBE'
 import { RoomResourceBE } from '../objects/business/be/RoomResourceBE'
 import mappers from 'Mappers/Mappers'
 
+// Import *again* WINSTON => Ugly, what is the good way to do this?
+import * as winston from '../config/winston'
+const logger = winston.setLogger()
+
 export const getRouter = () => {
 	let resourcesRouter = express.Router()
 
 	resourcesRouter.get('/', async (req, res) => {
 		try {
-			res.send(await resourcesLBS.findResources())
+			logger.info('GET Request received over /')
+			res.json({ success: true })
+			//res.send(await resourcesLBS.findResources())
 		} catch (error) {
 			console.log('An error occured', error)
 			res.status(500).send('An error occured')
@@ -27,8 +33,9 @@ export const getRouter = () => {
 
 	resourcesRouter.post('/', async (req, res) => {
 		try {
-			let resource = Mappers.jsonToResourceBE(req.body)
-			res.send(await resourcesLBS.createResource(resource))
+			logger.info('POST Request received over /: ' + JSON.stringify(req.body))
+			res.send(JSON.stringify(req.body))
+			//res.send(await resourcesLBS.createResource(req.body))
 		} catch (error) {
 			console.log('An error occured', error)
 			res.status(500).send('An error occured')

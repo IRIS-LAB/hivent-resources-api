@@ -20,10 +20,14 @@
   "homepage": "https://github.com/IRIS-LAB/hivent-resources-api#readme",
   "dependencies": {
     "@babel/runtime": "^7.1.2",
+    "app-root-path": "^2.1.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "express-basic-auth": "^1.1.6",
+    "moment-timezone": "^0.5.23",
     "mongodb": "^3.1.8",
-    "node-fetch": "^2.2.1"
+    "node-fetch": "^2.2.1",
+    "winston": "^3.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
