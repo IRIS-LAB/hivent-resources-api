@@ -2,7 +2,7 @@ import express from 'express'
 import * as resourcesLBS from '../business/ResourcesLBS'
 import { ResourceBE } from '../objects/business/be/ResourceBE'
 import { RoomResourceBE } from '../objects/business/be/RoomResourceBE'
-import Mappers from 'Mappers/Mappers'
+import mappers from 'Mappers/Mappers'
 
 export const getRouter = () => {
 	let resourcesRouter = express.Router()
