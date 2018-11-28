@@ -22,11 +22,5 @@ module.exports = {
 				}
 			}
 		]
-	},
-	resolve: {
-		alias: {
-			Mappers: 'exposition/mappers/',
-			BE: 'objects/business/be/'
-		}
 	}
 }

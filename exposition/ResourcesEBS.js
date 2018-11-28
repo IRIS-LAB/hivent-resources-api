@@ -1,10 +1,12 @@
 import express from 'express'
 import * as resourcesLBS from '../business/ResourcesLBS'
 import { ResourceBE } from '../objects/business/be/ResourceBE'
-import { RoomResourceBE } from '../objects/business/be/RoomResourceBE'
-
+import { ResourceTypeEnum } from '../objects/business/be/ResourceTypeEnum'
+import * as mappers from './mappers/Mappers'
 // Import *again* WINSTON => Ugly, what is the good way to do this?
 import * as winston from '../config/winston'
+import { debug } from 'util'
+
 const logger = winston.setLogger()
 
 export const getRouter = () => {
@@ -32,6 +34,8 @@ export const getRouter = () => {
 
 	resourcesRouter.post('/', async (req, res) => {
 		try {
+			let resourceBE = mappers.jsonToResourceBE(req.body)
+			logger.debug(resourceBE)
 			logger.info('POST Request received over /: ' + JSON.stringify(req.body))
 			//res.send(JSON.stringify(req.body))
 			res.send(await resourcesLBS.createResource(req.body))

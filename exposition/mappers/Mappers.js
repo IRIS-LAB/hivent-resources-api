@@ -1,4 +1,4 @@
-import ResourceTypeEnum from 'BE/ResourceTypeEnum'
+import ResourceTypeEnum from '../../objects/business/be/ResourceTypeEnum'
 import { RoomResourceBE } from '../../objects/business/be/RoomResourceBE'
 
 exports.jsonToResourceBE = json => {

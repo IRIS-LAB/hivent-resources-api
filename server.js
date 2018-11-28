@@ -6,18 +6,18 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import * as resourcesEBS from './exposition/ResourcesEBS'
 import * as actuatorEBS from './exposition/ActuatorEBS'
-import basicAuth from 'express-basic-auth'
+// import basicAuth from 'express-basic-auth'
 
-const basicAuthConfig = { users: { test: 'test' } }
+//const basicAuthConfig = { users: { test: 'test' } }
 const app = express()
-const port = process.env.PORT || 8084
+const port = process.env.PORT || 27017
 
 app.listen(port, () => {
 	logger.info(`Hivent Resources service started on http://localhost:${port}`)
 })
 
 // pour exposer en basic Auth
-app.use(basicAuth(basicAuthConfig))
+// app.use(basicAuth(basicAuthConfig))
 
 // Pour récupérer body des requêtes
 app.use(bodyParser.json())
