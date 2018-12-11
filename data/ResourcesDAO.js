@@ -29,11 +29,11 @@ export const getResource = async resourceId => {
 	return resource
 }
 
-export const createResource = async resource => {
+export const createResource = async resourceBE => {
 	let resourcesDB = await connect()
 	let newResource = await resourcesDB
 		.collection('Resources')
-		.insertOne(resource)
+		.insertOne(resourceBE)
 	return newResource.ops[0]
 }
 

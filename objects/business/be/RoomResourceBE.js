@@ -1,5 +1,5 @@
 import { ResourceBE } from './ResourceBE'
-import ResourceTypeEnum from './ResourceTypeEnum'
+import { ResourceTypeEnum } from './ResourceTypeEnum'
 
 export class RoomResourceBE extends ResourceBE {
 	constructor(name, mail, nbSeatsAvailable) {
