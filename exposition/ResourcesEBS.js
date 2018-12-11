@@ -7,7 +7,7 @@ import * as mappers from './mappers/Mappers'
 import * as winston from '../config/winston'
 import { debug } from 'util'
 
-const logger = winston.setLogger()
+const logger = winston.logger
 
 export const getRouter = () => {
 	let resourcesRouter = express.Router()
@@ -34,7 +34,7 @@ export const getRouter = () => {
 
 	resourcesRouter.post('/', async (req, res) => {
 		try {
-			let resourceBE = mappers.jsonToResourceBE(req.body)
+			//let resourceBE = mappers.jsonToResourceBE(req.body)
 			logger.debug(resourceBE)
 			logger.info('POST Request received over /: ' + JSON.stringify(req.body))
 			//res.send(JSON.stringify(req.body))
@@ -42,6 +42,17 @@ export const getRouter = () => {
 		} catch (error) {
 			console.log('An error occured', error)
 			res.status(500).send('An error occured')
+		}
+	})
+
+	resourcesRouter.post('/init', async (req,res) => {
+		try {
+			logger.debug('ResourcesEBS - /init')
+			let resources = await resourcesLBS.init()
+			res.send(resources)
+		} catch (error) {
+			console.log('An error occured', error)
+			res.status(500).send('An error occured')		
 		}
 	})
 

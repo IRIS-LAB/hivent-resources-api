@@ -1,7 +1,8 @@
 import { MongoClient, ObjectId } from 'mongodb'
+import {resourcesInit} from './init/resources-init'
 
-//const url = 'mongodb://localhost:27020/'
-const url = 'mongodb://10.178.150.3:27017/'
+const url = 'mongodb://localhost:27020/'
+// const url = 'mongodb://10.178.150.3:27017/'
 
 const connect = async () => {
 	let connection = await MongoClient.connect(
@@ -18,7 +19,6 @@ export const findResources = async () => {
 		.collection('Resources')
 		.find()
 		.toArray()
-	// resourcesDB.connection.close()
 	return resources
 }
 
@@ -26,7 +26,6 @@ export const getResource = async resourceId => {
 	let resourcesDB = await connect()
 	let oid = new ObjectId(resourceId)
 	let resource = await resourcesDB.collection('Resources').findOne({ _id: oid })
-	//ResourcesDB.connection.close()
 	return resource
 }
 
@@ -35,6 +34,13 @@ export const createResource = async resource => {
 	let newResource = await resourcesDB
 		.collection('Resources')
 		.insertOne(resource)
-	//resourcesDB.connection.close()
 	return newResource.ops[0]
+}
+
+export const init = async () => {
+	console.log('ResourcesDAO : init')
+	let resourcesDB = await connect()
+	let newResources = await resourcesDB.collection('Resources').insertMany(resourcesInit)
+	console.log(newResources.ops)
+	return newResources.ops
 }

@@ -12,3 +12,8 @@ export const createResource = async resource => {
 	console.log('ResourceLBS : ' + resource)
 	return await resourcesDAO.createResource(resource)
 }
+
+export const init = async ()  => {
+	console.log('ResourcesLBS init ' )
+	return await resourcesDAO.init()
+}

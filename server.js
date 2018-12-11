@@ -1,7 +1,5 @@
 // For logging purpose
 import * as winston from './config/winston'
-const logger = winston.setLogger()
-
 import express from 'express'
 import bodyParser from 'body-parser'
 import * as resourcesEBS from './exposition/ResourcesEBS'
@@ -9,11 +7,12 @@ import * as actuatorEBS from './exposition/ActuatorEBS'
 // import basicAuth from 'express-basic-auth'
 
 //const basicAuthConfig = { users: { test: 'test' } }
+const logger = winston.logger
 const app = express()
-const port = process.env.PORT || 27017
+const port = process.env.PORT || 8080
 
 app.listen(port, () => {
-	logger.info(`Hivent Resources service started on http://localhost:${port}`)
+	logger.info(`Hivent Resources API started on http://localhost:${port}`)
 })
 
 // pour exposer en basic Auth

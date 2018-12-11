@@ -36,7 +36,7 @@ let options = {
 	}
 }
 
-let logger = createLogger({
+export const logger = createLogger({
 	format: combine(
 		appendTimestamp({ tz: localTimeZone }),
 		splat(),
@@ -50,6 +50,3 @@ let logger = createLogger({
 	exitOnError: false // do not exit on handled exceptions
 })
 
-export const setLogger = () => {
-	return logger
-}
