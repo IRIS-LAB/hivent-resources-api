@@ -33,12 +33,18 @@ export const getRouter = () => {
 	})
 
 	resourcesRouter.post('/', async (req, res) => {
+		console.log(req)
 		try {
-			//let resourceBE = mappers.jsonToResourceBE(req.body)
-			logger.debug(resourceBE)
 			logger.info('POST Request received over /: ' + JSON.stringify(req.body))
-			//res.send(JSON.stringify(req.body))
-			res.send(await resourcesLBS.createResource(req.body))
+			if (!req.body.type) {
+				throw Error('Le type de la ressource doit être renseigné')
+			} else if (req.body.type == ResourceTypeEnum.ROOM) {
+
+				let roomResourceBE = mappers.jsonToRoomResourceBE(req.body)
+				logger.debug(roomResourceBE)
+				
+				res.send(await resourcesLBS.createResource(roomResourceBE))
+			}
 		} catch (error) {
 			console.log('An error occured', error)
 			res.status(500).send('An error occured')

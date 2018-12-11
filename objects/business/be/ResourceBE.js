@@ -1,8 +1,8 @@
 export class ResourceBE {
-	constructor(name, mail, resourceType) {
+	constructor(name, mail, type) {
 		this._name = name
 		this._mail = mail
-		this._resourceType = resourceType
+		this._type = type
 	}
 
 	get name() {
@@ -13,7 +13,7 @@ export class ResourceBE {
 		return this._name
 	}
 
-	get resourceType() {
-		return this._resourceType
+	get type() {
+		return this._type
 	}
 }
