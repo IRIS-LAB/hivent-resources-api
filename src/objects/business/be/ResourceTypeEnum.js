@@ -1,4 +1,4 @@
-export const ResourceTypeEnum = {
+export const 	ResourceTypeEnum = {
 	ROOM: 'ROOM',
 	MATERIAL: 'MATERIAL'
 }

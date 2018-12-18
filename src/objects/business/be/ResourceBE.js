@@ -1,19 +1,21 @@
 export class ResourceBE {
 	constructor(name, mail, type) {
-		this._name = name
-		this._mail = mail
-		this._type = type
+		this.name = name
+		this.mail = mail
+		this.type = type
 	}
 
+	/*
 	get name() {
-		return this._name
+		return this.name
 	}
 
 	get mail() {
-		return this._name
+		return this.name
 	}
 
 	get type() {
-		return this._type
+		return this.type
 	}
+	*/
 }

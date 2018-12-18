@@ -4,8 +4,9 @@ import { ResourceBE } from '../objects/business/be/ResourceBE'
 import { ResourceTypeEnum } from '../objects/business/be/ResourceTypeEnum'
 import * as mappers from './mappers/Mappers'
 // Import *again* WINSTON => Ugly, what is the good way to do this?
-import * as winston from '../config/winston'
+import * as winston from '../../config/winston'
 import { debug } from 'util'
+import { BusinessException } from 'iris-elements';
 
 const logger = winston.logger
 
@@ -46,8 +47,13 @@ export const getRouter = () => {
 				res.send(await resourcesLBS.createResource(roomResourceBE))
 			}
 		} catch (error) {
-			console.log('An error occured', error)
+			console.log('An error occured', JSON.stringify(error))
+			
+			if(error instanceof BusinessException) {
+				res.status(400).send(error)
+			} else {
 			res.status(500).send('An error occured')
+			}
 		}
 	})
 

@@ -2,8 +2,8 @@
 import * as winston from './config/winston'
 import express from 'express'
 import bodyParser from 'body-parser'
-import * as resourcesEBS from './exposition/ResourcesEBS'
-import * as actuatorEBS from './exposition/ActuatorEBS'
+import * as resourcesEBS from './src/exposition/ResourcesEBS'
+import * as actuatorEBS from './src/exposition/ActuatorEBS'
 // import basicAuth from 'express-basic-auth'
 
 //const basicAuthConfig = { users: { test: 'test' } }
