@@ -19,7 +19,7 @@ const checkRoomResourceBE = resourceBE => {
 	if (!resourceBE.type) {
 		errors.push(new ErrorDO('type','resource.type.required','Le type est obligatoire.'))
 	} else {
-		if (resourceBE.type in ResourceTypeEnum) {
+		if (resourceBE.type in ResourceTypeEnum === false) {
 			errors.push(new ErrorDO('type','resource.type.required',`Le type ${resourceBE.type} n'est pas connu.`))
 		}
 	}
@@ -28,7 +28,7 @@ const checkRoomResourceBE = resourceBE => {
 		errors.push(new ErrorDO('mail','resource.mail.required','L\'email est obligatoire.'))
 	} else {
 		let regex = /^(\s*|[a-zA-Z0-9._-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,4})$/
-		if (!regex.test(resourceBE.email)) {
+		if (!regex.test(resourceBE.mail)) {
 			errors.push(new ErrorDO('mail','resource.mail.invalid','L\'email est invalide.'))
 		}
 	}
