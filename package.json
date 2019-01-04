@@ -1,47 +1,53 @@
 {
-  "name": "hivent-resources-api",
-  "version": "1.0.0-0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "start": "cross-env nodemon --exec babel-node server.js",
-    "build": "webpack --progress --display-error-details",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/IRIS-LAB/hivent-resources-api.git"
-  },
-  "author": "",
-  "license": "",
-  "bugs": {
-    "url": "https://github.com/IRIS-LAB/hivent-resources-api/issues"
-  },
-  "homepage": "https://github.com/IRIS-LAB/hivent-resources-api#readme",
-  "dependencies": {
-    "@babel/runtime": "^7.1.2",
-    "app-root-path": "^2.1.0",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "express-basic-auth": "^1.1.6",
-    "iris-elements": "^1.0.2",
-    "moment-timezone": "^0.5.23",
-    "mongodb": "^3.1.8",
-    "node-fetch": "^2.2.1",
-    "winston": "^3.1.0"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/node": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
-    "babel-loader": "^8.0.4",
-    "cross-env": "^5.2.0",
-    "nodemon": "^1.18.5",
-    "webpack": "^4.25.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-node-externals": "^1.7.2"
-  }
+	"name": "hivent-resources-api",
+	"version": "1.0.0-0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"start": "cross-env nodemon --exec babel-node server.js",
+		"build": "webpack --progress --display-error-details",
+		"lint": "eslint src/**",
+		"test": "jest src",
+		"coverage": "jest --collectCoverageFrom=src/**.js --coverage src"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/IRIS-LAB/hivent-resources-api.git"
+	},
+	"author": "",
+	"license": "",
+	"bugs": {
+		"url": "https://github.com/IRIS-LAB/hivent-resources-api/issues"
+	},
+	"homepage": "https://github.com/IRIS-LAB/hivent-resources-api#readme",
+	"dependencies": {
+		"@babel/runtime": "^7.1.2",
+		"app-root-path": "^2.1.0",
+		"body-parser": "^1.18.3",
+		"express": "^4.16.4",
+		"express-basic-auth": "^1.1.6",
+		"iris-elements": "^1.0.2",
+		"moment-timezone": "^0.5.23",
+		"mongodb": "^3.1.8",
+		"node-fetch": "^2.2.1",
+		"winston": "^3.1.0"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.1.2",
+		"@babel/core": "^7.1.2",
+		"@babel/node": "^7.0.0",
+		"@babel/plugin-transform-runtime": "^7.1.0",
+		"@babel/polyfill": "^7.0.0",
+		"@babel/preset-env": "^7.1.0",
+		"babel-core": "^7.0.0-bridge.0",
+		"babel-jest": "^23.6.0",
+		"babel-loader": "^8.0.4",
+		"cross-env": "^5.2.0",
+		"eslint-plugin-jest": "^22.1.2",
+		"jest": "^23.6.0",
+		"nodemon": "^1.18.5",
+		"webpack": "^4.25.1",
+		"webpack-cli": "^3.1.2",
+		"webpack-node-externals": "^1.7.2"
+	}
 }
