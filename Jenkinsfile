@@ -3,5 +3,6 @@
 @Library('gie') _
  
 continuousIntegration(
-  builder: 'npm'
+  builder: 'npm',
+  deployer: 'none'
 )
