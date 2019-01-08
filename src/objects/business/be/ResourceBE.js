@@ -5,17 +5,4 @@ export class ResourceBE {
 		this.type = type
 	}
 
-	/*
-	get name() {
-		return this.name
-	}
-
-	get mail() {
-		return this.name
-	}
-
-	get type() {
-		return this.type
-	}
-	*/
 }

@@ -5,17 +5,17 @@ const url = 'mongodb://localhost:27020/'
 // const url = 'mongodb://10.178.150.3:27017/'
 
 const connect = async () => {
-	let connection = await MongoClient.connect(
+	const connection = await MongoClient.connect(
 		url,
 		{ useNewUrlParser: true }
 	)
-	let db = connection.db('Resources')
+	const db = connection.db('Resources')
 	return db
 }
 
 export const findResources = async () => {
-	let resourcesDB = await connect()
-	let resources = await resourcesDB
+	const resourcesDB = await connect()
+	const resources = await resourcesDB
 		.collection('Resources')
 		.find()
 		.toArray()
@@ -23,24 +23,23 @@ export const findResources = async () => {
 }
 
 export const getResource = async resourceId => {
-	let resourcesDB = await connect()
-	let oid = new ObjectId(resourceId)
-	let resource = await resourcesDB.collection('Resources').findOne({ _id: oid })
+	const resourcesDB = await connect()
+	const oid = new ObjectId(resourceId)
+	const resource = await resourcesDB.collection('Resources').findOne({ _id: oid })
 	return resource
 }
 
 export const createResource = async resourceBE => {
-	let resourcesDB = await connect()
-	let newResource = await resourcesDB
+	const resourcesDB = await connect()
+	const newResource = await resourcesDB
 		.collection('Resources')
 		.insertOne(resourceBE)
 	return newResource.ops[0]
 }
 
 export const init = async () => {
-	console.log('ResourcesDAO : init')
-	let resourcesDB = await connect()
-	let newResources = await resourcesDB.collection('Resources').insertMany(resourcesInit)
+	const resourcesDB = await connect()
+	const newResources = await resourcesDB.collection('Resources').insertMany(resourcesInit)
 	console.log(newResources.ops)
 	return newResources.ops
 }

@@ -11,7 +11,7 @@ import { BusinessException } from 'iris-elements';
 const logger = winston.logger
 
 export const getRouter = () => {
-	let resourcesRouter = express.Router()
+	const resourcesRouter = express.Router()
 
 	resourcesRouter.get('/', async (req, res) => {
 		try {
@@ -34,17 +34,17 @@ export const getRouter = () => {
 	})
 
 	resourcesRouter.post('/', async (req, res) => {
-		console.log(req)
 		try {
 			logger.info('POST Request received over /: ' + JSON.stringify(req.body))
 			if (!req.body.type) {
 				throw Error('Le type de la ressource doit être renseigné')
 			} else if (req.body.type == ResourceTypeEnum.ROOM) {
 
-				let roomResourceBE = mappers.jsonToRoomResourceBE(req.body)
+				const roomResourceBE = mappers.jsonToRoomResourceBE(req.body)
 				logger.debug(roomResourceBE)
-				
 				res.send(await resourcesLBS.createResource(roomResourceBE))
+			} else {
+				throw Error(`Le type de la ressource n'est pas connu`)
 			}
 		} catch (error) {
 			console.log('An error occured', JSON.stringify(error))
@@ -60,7 +60,7 @@ export const getRouter = () => {
 	resourcesRouter.post('/init', async (req,res) => {
 		try {
 			logger.debug('ResourcesEBS - /init')
-			let resources = await resourcesLBS.init()
+			const resources = await resourcesLBS.init()
 			res.send(resources)
 		} catch (error) {
 			console.log('An error occured', error)

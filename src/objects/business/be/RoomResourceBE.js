@@ -1,6 +1,9 @@
 import { ResourceBE } from './ResourceBE'
 import { ResourceTypeEnum } from './ResourceTypeEnum'
 
+export const MAX_NAME_LENGTH = 100;
+export const MAX_SEATS_NUMBER = 1000;
+
 export class RoomResourceBE extends ResourceBE {
 	constructor(name, mail, nbSeatsAvailable) {
 		super(name, mail, ResourceTypeEnum.ROOM)
@@ -8,26 +11,4 @@ export class RoomResourceBE extends ResourceBE {
 		this.projectorAvailable = false
 		this.chromeboxAvailable = false
 	}
-
-	/*
-	get nbSeatsAvailable() {
-		return this.nbSeatsAvailable
-	}
-
-	get projectorAvailable() {
-		return this.projectorAvailable
-	}
-
-	set projectorAvailable(projectorAvailable) {
-		this.projectorAvailable = projectorAvailable
-	}
-
-	get chromeboxAvailable() {
-		return this.chromeboxAvailable
-	}
-
-	set chromeboxAvailable(chromeboxAvailable) {
-		this.chromeboxAvailable = chromeboxAvailable
-	}
-	*/
 }
