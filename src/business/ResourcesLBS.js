@@ -1,21 +1,26 @@
-import * as resourcesDAO from '../data/ResourcesDAO'
+import {
+  findResources as findResourcesDAO,
+  createResource as createResourceDAO,
+  getResource as getResourceDAO,
+  init as initDAO
+} from '../data/ResourcesDAO'
 import { checkRoomResourceBE } from './ValidatorLBS'
 
 export const findResources = async () => {
-  return await resourcesDAO.findResources()
+  return await findResourcesDAO()
 }
 
 export const getResource = async resourceId => {
-  return await resourcesDAO.getResource(resourceId)
+  return await getResourceDAO(resourceId)
 }
 
 export const createResource = async resourceBE => {
   console.debug('createResource entry')
   checkRoomResourceBE(resourceBE)
   console.debug('RoomResourceBE checked')
-  return await resourcesDAO.createResource(resourceBE)
+  return await createResourceDAO(resourceBE)
 }
 
 export const init = async () => {
-  return await resourcesDAO.init()
+  return await initDAO()
 }
