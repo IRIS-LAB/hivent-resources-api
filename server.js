@@ -1,32 +1,29 @@
 // For logging purpose
-import * as winston from "./config/winston"
-const logger = winston.setLogger()
+import * as winston from './config/winston';
+import express from 'express';
+import bodyParser from 'body-parser';
+import * as resourcesEBS from './src/exposition/ResourcesEBS';
+import * as actuatorEBS from './src/exposition/ActuatorEBS';
+// import basicAuth from 'express-basic-auth'
 
+// TESTS
+// import * as ResourcesLBSTest from './src/business/ResourcesLBS.test';
 
-import express from 'express'
-import bodyParser from 'body-parser'
-import * as resourcesEBS from "/home/pi/hivent-resources-api/exposition/ResourcesEBS"
-import * as actuatorEBS from './exposition/ActuatorEBS'
-import basicAuth from 'express-basic-auth'
-
-
-
-const basicAuthConfig = { users: { 'test': 'test' }}
-const app = express()
-const port = process.env.PORT || 8084
-
-
+//const basicAuthConfig = { users: { test: 'test' } }
+const logger = winston.logger;
+const app = express();
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
-  logger.info(`Hivent Resources service started on http://localhost:${port}`)
-})
+	logger.info(`Hivent Resources API started on http://localhost:${port}`);
+});
 
 // pour exposer en basic Auth
-app.use(basicAuth(basicAuthConfig))
+// app.use(basicAuth(basicAuthConfig))
 
 // Pour récupérer body des requêtes
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/resources', resourcesEBS.getRouter())
-app.use('/actuator', actuatorEBS.getRouter())
+app.use('/resources', resourcesEBS.getRouter());
+app.use('/actuator', actuatorEBS.getRouter());
