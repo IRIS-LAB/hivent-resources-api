@@ -1,8 +1,8 @@
 import { ResourceTypeEnum } from '../objects/business/be/ResourceTypeEnum';
 import * as RoomResourceBE from '../objects/business/be/RoomResourceBE';
-import { BusinessException, ErrorDO, checkMail as irisElementsCheckMail } from 'iris-elements';
+import { BusinessException, ErrorDO, checkMail as irisCommonCheckMail } from 'iris-common';
 
-/** 
+/**
  * RoomResource Check
  * @function checkRoomResourceBE
  * @param {RoomResourceBE} resourceBE RoomResource to check
@@ -10,8 +10,15 @@ import { BusinessException, ErrorDO, checkMail as irisElementsCheckMail } from '
  **/
 export const checkRoomResourceBE = resourceBE => {
 	let errors = [];
-	errors = [...checkName(resourceBE), ...checkType(resourceBE), ...checkMail(resourceBE), 
-		...checkNbSeatsAvailable(resourceBE), ...checkProjectorAvailable(resourceBE), ...checkChromeboxAvailable(resourceBE)];
+	errors = [
+		...checkName(resourceBE),
+		...checkType(resourceBE),
+		...checkMail(resourceBE),
+		...checkNbSeatsAvailable(resourceBE),
+		...checkProjectorAvailable(resourceBE),
+		...checkChromeboxAvailable(resourceBE)
+	];
+	console.debug('Raised errors', errors);
 	if (errors.length > 0) {
 		throw new BusinessException(errors);
 	}
@@ -25,12 +32,17 @@ export function checkName(resourceBE) {
 	} else {
 		if (resourceBE.name.length > RoomResourceBE.MAX_NAME_LENGTH) {
 			errors.push(
-				new ErrorDO('name', 'resource.name.length', `La longueur du nom ne doit pas dépasser ${RoomResourceBE.MAX_NAME_LENGTH} caractères.`)
+				new ErrorDO(
+					'name',
+					'resource.name.length',
+					`La longueur du nom ne doit pas dépasser ${RoomResourceBE.MAX_NAME_LENGTH} caractères.`
+				)
 			);
 		}
 	}
+
 	return errors;
-};
+}
 
 export function checkType(resourceBE) {
 	// type
@@ -43,7 +55,7 @@ export function checkType(resourceBE) {
 		}
 	}
 	return errors;
-};
+}
 
 export function checkMail(resourceBE) {
 	// mail
@@ -51,13 +63,13 @@ export function checkMail(resourceBE) {
 	if (!resourceBE.mail) {
 		errors.push(new ErrorDO('mail', 'resource.mail.required', "L'email est obligatoire."));
 	} else {
-		if (!irisElementsCheckMail(resourceBE.mail)) {
+		if (!irisCommonCheckMail(resourceBE.mail)) {
 			errors.push(new ErrorDO('mail', 'resource.mail.invalid', "L'email est invalide."));
 		}
 	}
 
 	return errors;
-};
+}
 
 export function checkNbSeatsAvailable(resourceBE) {
 	// nbSeatsAvailable
@@ -84,10 +96,10 @@ export function checkNbSeatsAvailable(resourceBE) {
 		}
 	}
 	return errors;
-};
+}
 
 export function checkProjectorAvailable(resourceBE) {
-	// projectorAvailable
+	// checkProjectorAvailable
 	let errors = [];
 	if (typeof resourceBE.projectorAvailable != 'boolean') {
 		errors.push(
@@ -99,7 +111,7 @@ export function checkProjectorAvailable(resourceBE) {
 		);
 	}
 	return errors;
-};
+}
 
 export function checkChromeboxAvailable(resourceBE) {
 	// chromeboxAvailable
@@ -114,4 +126,4 @@ export function checkChromeboxAvailable(resourceBE) {
 		);
 	}
 	return errors;
-};
+}
