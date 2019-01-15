@@ -5,7 +5,7 @@ const logger = winston.setLogger()
 
 import express from 'express'
 import bodyParser from 'body-parser'
-import * as resourcesEBS from "/home/pi/hivent-resources-api/exposition/ResourcesEBS"
+import * as resourcesEBS from "./exposition/ResourcesEBS"
 import * as actuatorEBS from './exposition/ActuatorEBS'
 import basicAuth from 'express-basic-auth'
 
