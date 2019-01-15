@@ -10,7 +10,9 @@ export const getResource = async resourceId => {
 };
 
 export const createResource = async resourceBE => {
+	console.debug('createResource entry');
 	checkRoomResourceBE(resourceBE);
+	console.debug('RoomResourceBE checked');
 	return await resourcesDAO.createResource(resourceBE);
 };
 

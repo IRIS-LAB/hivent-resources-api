@@ -1,13 +1,15 @@
 import * as validatorLBS from './ValidatorLBS';
 import { RoomResourceBE, MAX_SEATS_NUMBER } from '../objects/business/be/RoomResourceBE';
 import { ResourceTypeEnum } from '../objects/business/be/ResourceTypeEnum';
-import { BusinessException } from 'iris-elements';
+import { BusinessException } from 'iris-common';
 
 describe('ValidatorLBS', () => {
 	describe('checkRoomResource', () => {
 		it('should throw no exception when roomresource is valid', () => {
 			let resourceBE = new RoomResourceBE('name', 'mail@systeme-u.com', 12);
-			let err = () => { validatorLBS.checkRoomResourceBE(resourceBE) };
+			let err = () => {
+				validatorLBS.checkRoomResourceBE(resourceBE);
+			};
 			expect(err).not.toThrow();
 			expect(resourceBE.name).toBe('name');
 			expect(resourceBE.type).toBe(ResourceTypeEnum.ROOM);
@@ -15,23 +17,25 @@ describe('ValidatorLBS', () => {
 			expect(resourceBE.nbSeatsAvailable).toBe(12);
 			expect(resourceBE.projectorAvailable).toBe(false);
 			expect(resourceBE.chromeboxAvailable).toBe(false);
-		})
+		});
 	});
 	describe('checkRoomResource', () => {
 		it('should throw an exception when roomresource is invalid', () => {
 			let resourceBE = new RoomResourceBE(null, null, null);
-			let err = () => { validatorLBS.checkRoomResourceBE(resourceBE) };
+			let err = () => {
+				validatorLBS.checkRoomResourceBE(resourceBE);
+			};
 			expect(err).toThrow(BusinessException);
-		})
+		});
 	});
 
 	describe('checkName', () => {
 		it('should return no error when name is valid', () => {
 			let resourceBE = new RoomResourceBE('name', 'mail@systeme-u.com', 12);
-			let err = validatorLBS.checkName(resourceBE)
-			expect(err).toHaveLength(0)
-			expect(resourceBE.name).toBe('name')
-		})
+			let err = validatorLBS.checkName(resourceBE);
+			expect(err).toHaveLength(0);
+			expect(resourceBE.name).toBe('name');
+		});
 
 		it('should return an error when the room name is empty', () => {
 			let resourceBE = new RoomResourceBE('', 'mail@systeme-u.com', 12);
@@ -69,10 +73,10 @@ describe('ValidatorLBS', () => {
 	describe('checkType', () => {
 		it('should return no error when type is valid', () => {
 			let resourceBE = new RoomResourceBE('name', 'mail@systeme-u.com', 12);
-			let err = validatorLBS.checkType(resourceBE)
-			expect(err).toHaveLength(0)
-			expect(resourceBE.type).toBe(ResourceTypeEnum.ROOM)
-		})
+			let err = validatorLBS.checkType(resourceBE);
+			expect(err).toHaveLength(0);
+			expect(resourceBE.type).toBe(ResourceTypeEnum.ROOM);
+		});
 
 		it('should return an error when the room type is empty', () => {
 			let resourceBE = new RoomResourceBE('name', 'mail@systeme-u.com', 12);
@@ -103,13 +107,12 @@ describe('ValidatorLBS', () => {
 	});
 
 	describe('checkMail', () => {
-
 		it('should return no error when mail is valid', () => {
 			let resourceBE = new RoomResourceBE('name', 'mail@systeme-u.com', 12);
-			let err = validatorLBS.checkMail(resourceBE)
-			expect(err).toHaveLength(0)
-			expect(resourceBE.mail).toBe('mail@systeme-u.com')
-		})
+			let err = validatorLBS.checkMail(resourceBE);
+			expect(err).toHaveLength(0);
+			expect(resourceBE.mail).toBe('mail@systeme-u.com');
+		});
 
 		it('should return an error when the room mail is empty', () => {
 			let resourceBE = new RoomResourceBE('name', '', 12);
@@ -142,7 +145,7 @@ describe('ValidatorLBS', () => {
 			expect(err[0].errorField).toBe('mail');
 			expect(err[0].errorCode).toBe('resource.mail.invalid');
 		});
-		
+
 		it('should return an error when the room mail domain is too long', () => {
 			let resourceBE = new RoomResourceBE('name', 'mail@systeme-u.comfr', 12);
 			let err = validatorLBS.checkMail(resourceBE);
@@ -169,13 +172,12 @@ describe('ValidatorLBS', () => {
 	});
 
 	describe('checkNbSeatsAvailable', () => {
-		
 		it('should return no error when the number of seats of the room is valid', () => {
 			let resourceBE = new RoomResourceBE('name', 'mail@systeme-u.com', 12);
-			let err = validatorLBS.checkNbSeatsAvailable(resourceBE)
-			expect(err).toHaveLength(0)
-			expect(resourceBE.nbSeatsAvailable).toBe(12)
-		})
+			let err = validatorLBS.checkNbSeatsAvailable(resourceBE);
+			expect(err).toHaveLength(0);
+			expect(resourceBE.nbSeatsAvailable).toBe(12);
+		});
 
 		it('should return an error when the number of seats of the room is empty', () => {
 			let resourceBE = new RoomResourceBE('name', 'mail@systeme-u.com', '');
