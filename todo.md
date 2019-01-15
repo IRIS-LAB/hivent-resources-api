@@ -1,5 +1,5 @@
 UT createResource (mock DAO)
-Remove Import *
 Update
 Delete
-Business exception 
+Business exception EBS
+Validator : check ROOM name unicity

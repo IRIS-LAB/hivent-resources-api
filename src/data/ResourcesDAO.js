@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId } from 'mongodb'
-import {resourcesInit} from './init/resources-init'
+import { resourcesInit } from './init/resources-init'
 
 const url = 'mongodb://localhost:27020/'
 // const url = 'mongodb://10.178.150.3:27017/'
