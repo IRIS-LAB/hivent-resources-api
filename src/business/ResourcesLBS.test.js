@@ -1,14 +1,27 @@
-import { createResource as createResourceDAO } from '../data/ResourcesDAO'
+import * as ResourcesDAO from '../data/ResourcesDAO'
 import * as ResourcesLBS from './ResourcesLBS'
-import { checkRoomResourceBE } from './ValidatorLBS'
+import { RoomResourceBE } from '../objects/business/be/RoomResourceBE'
+import * as ValidatorLBS from './ValidatorLBS'
 
-const mathjs = require('mathjs')
 describe('ResourcesLBS', () => {
+  let resourceBE
+
+  beforeAll(() => {
+    resourceBE = new RoomResourceBE({
+      name: 'name',
+      mail: 'mail@systeme-u.com',
+      nbSeatsAvailable: 12
+    })
+  })
+
   describe('createResource', () => {
+    ResourcesDAO.createResource = jest.fn(() => resourceBE)
+    ValidatorLBS.checkRoomResourceBE = jest.fn()
+
     it('should call the createResourceDAO function', () => {
-      jest.mock('createResourceDAO', () => jest.fn('responseCreate'))
-      ResourcesLBS.createResource()
-      expect(createResourceDAO.mock.calls.length).toBe(1)
+      let result = ResourcesLBS.createResource(resourceBE)
+      expect(ResourcesDAO.createResource).toHaveBeenCalledTimes(1)
+      expect(ValidatorLBS.checkRoomResourceBE).toHaveBeenCalledTimes(1)
     })
   })
 })

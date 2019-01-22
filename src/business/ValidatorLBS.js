@@ -1,8 +1,6 @@
 import { ResourceTypeEnum } from '../objects/business/be/ResourceTypeEnum'
-import {
-  MAX_NAME_LENGTH,
-  MAX_SEATS_NUMBER
-} from '../objects/business/be/ResourceBE'
+import { MAX_NAME_LENGTH } from '../objects/business/be/ResourceBE'
+import { MAX_SEATS_NUMBER } from '../objects/business/be/RoomResourceBE'
 import {
   BusinessException,
   ErrorDO,
@@ -25,7 +23,6 @@ export const checkRoomResourceBE = resourceBE => {
     ...checkProjectorAvailable(resourceBE),
     ...checkChromeboxAvailable(resourceBE)
   ]
-  console.debug('Raised errors', errors)
   if (errors.length > 0) {
     throw new BusinessException(errors)
   }
