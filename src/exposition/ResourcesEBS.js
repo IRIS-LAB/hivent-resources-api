@@ -55,7 +55,7 @@ export const getRouter = () => {
       }
     } catch (error) {
       console.error('An error occured', JSON.stringify(error))
-
+      console.log(error)
       if (error instanceof BusinessException) {
         res.status(400).send(error)
       } else {
