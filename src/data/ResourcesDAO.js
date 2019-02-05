@@ -15,40 +15,45 @@ const connect = async () => {
 }
 
 export const findResources = async () => {
-  const resourcesDB = await connect()
-  const resources = await resourcesDB
-    .collection('Resources')
-    .find()
-    .toArray()
-  return resources
+  // Set up path
+  let result = db.collection('resources')
+  // Find documents
+  let querySnapshot = await result.get()
+  // Construct result
+  let results = []
+  querySnapshot.forEach(doc => {
+    results.push(doc.data())
+  })
+  // Return data
+  return results
 }
 
 export const getResource = async resourceId => {
+  // Set up path
   let result = db.collection('resources').doc(resourceId)
-  let resultGet = await result.get()
-  return resultGet.data()
+  // Read document
+  let doc = await result.get()
+  // Return data
+  return doc.data()
 }
 
-// export const createResource = async resourceBE => {
-//   const resourcesDB = await connect()
-//   const newResource = await resourcesDB
-//     .collection('Resources')
-//     .insertOne(resourceBE)
-//   return newResource.ops[0]
-// }
 export const createResource = async resourceBE => {
-  //console.log('createResource db ', db)
+  // Construct resource
+  let resource = JSON.parse(JSON.stringify(resourceBE))
+  // Set up path
   let doc = db.collection('resources').doc()
-  //console.log('createResource doc ', doc)
-  let r = JSON.parse(JSON.stringify(resourceBE))
-  console.log(r)
-  await doc.set(r)
-  return doc.id
+  resource.id = doc.id
+  // Create document
+  await doc.set(resource)
+  // Return data
+  return resource
 }
 
 export const deleteResource = async resourceId => {
   try {
+    // Set up path
     let doc = db.collection('resources').doc(resourceId)
+    // Delete document
     await doc.delete()
   } catch (error) {
     console.log('erreur lors de la suppression', error)
