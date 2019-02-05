@@ -24,12 +24,9 @@ export const findResources = async () => {
 }
 
 export const getResource = async resourceId => {
-  const resourcesDB = await connect()
-  const oid = new ObjectId(resourceId)
-  const resource = await resourcesDB
-    .collection('Resources')
-    .findOne({ _id: oid })
-  return resource
+  let result = db.collection('resources').doc(resourceId)
+  let resultGet = await result.get()
+  return resultGet.data()
 }
 
 // export const createResource = async resourceBE => {
@@ -41,13 +38,21 @@ export const getResource = async resourceId => {
 // }
 export const createResource = async resourceBE => {
   //console.log('createResource db ', db)
-  let doc = db.collection('resources').doc(resourceBE.name)
+  let doc = db.collection('resources').doc()
   //console.log('createResource doc ', doc)
   let r = JSON.parse(JSON.stringify(resourceBE))
   console.log(r)
-  let res = doc.set(r)
-  //console.log('createResource res ', res)
-  return res
+  await doc.set(r)
+  return doc.id
+}
+
+export const deleteResource = async resourceId => {
+  try {
+    let doc = db.collection('resources').doc(resourceId)
+    await doc.delete()
+  } catch (error) {
+    console.log('erreur lors de la suppression', error)
+  }
 }
 
 export const init = async () => {

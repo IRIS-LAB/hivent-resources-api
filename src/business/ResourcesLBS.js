@@ -1,6 +1,7 @@
 import {
   findResources as findResourcesDAO,
   createResource as createResourceDAO,
+  deleteResource as deleteResourceDAO,
   getResource as getResourceDAO,
   init as initDAO
 } from '../data/ResourcesDAO'
@@ -12,6 +13,10 @@ export const findResources = async () => {
 
 export const getResource = async resourceId => {
   return await getResourceDAO(resourceId)
+}
+
+export const deleteResource = async resourceId => {
+  return await deleteResourceDAO(resourceId)
 }
 
 export const createResource = async resourceBE => {

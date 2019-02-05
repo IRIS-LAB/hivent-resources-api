@@ -3,6 +3,7 @@ import {
   findResources as findResourcesLBS,
   createResource as createResourceLBS,
   getResource as getResourceLBS,
+  deleteResource as deleteResourceLBS,
   init as initLBS
 } from '../business/ResourcesLBS'
 import { RoomResourceBE } from '../objects/business/be/RoomResourceBE'
@@ -26,6 +27,15 @@ export const getRouter = () => {
   resourcesRouter.get('/:resourceId', async (req, res) => {
     try {
       res.send(await getResourceLBS(req.params.resourceId))
+    } catch (error) {
+      console.error('An error occured', error)
+      res.status(500).send('An error occured')
+    }
+  })
+
+  resourcesRouter.delete('/:resourceId', async (req, res) => {
+    try {
+      res.send(await deleteResourceLBS(req.params.resourceId))
     } catch (error) {
       console.error('An error occured', error)
       res.status(500).send('An error occured')
