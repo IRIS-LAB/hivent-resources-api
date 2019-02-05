@@ -3,12 +3,22 @@ import {
   findResources as findResourcesLBS,
   createResource as createResourceLBS,
   getResource as getResourceLBS,
-  deleteResource as deleteResourceLBS,
-  init as initLBS
+  deleteResource as deleteResourceLBS
 } from '../business/ResourcesLBS'
 import { RoomResourceBE } from '../objects/business/be/RoomResourceBE'
 import { ResourceTypeEnum } from '../objects/business/be/ResourceTypeEnum'
-import { BusinessException } from 'iris-common'
+import { BusinessException, EntityNotFoundBusinessException } from 'iris-common'
+import { ExceptionHandler } from 'winston'
+
+const handleException = (error, res) => {
+  if (error instanceof EntityNotFoundBusinessException) {
+    res.status(404).send(error)
+  } else if (error instanceof BusinessException) {
+    res.status(400).send(error)
+  } else {
+    res.status(500).send(error)
+  }
+}
 
 export const getRouter = () => {
   const resourcesRouter = express.Router()
@@ -19,8 +29,7 @@ export const getRouter = () => {
       //res.json({ success: true })
       res.send(await findResourcesLBS())
     } catch (error) {
-      console.error('An error occured', error)
-      res.status(500).send('An error occured')
+      handleException(error, res)
     }
   })
 
@@ -28,8 +37,7 @@ export const getRouter = () => {
     try {
       res.send(await getResourceLBS(req.params.resourceId))
     } catch (error) {
-      console.error('An error occured', error)
-      res.status(500).send('An error occured')
+      handleException(error, res)
     }
   })
 
@@ -37,8 +45,7 @@ export const getRouter = () => {
     try {
       res.send(await deleteResourceLBS(req.params.resourceId))
     } catch (error) {
-      console.error('An error occured', error)
-      res.status(500).send('An error occured')
+      handleException(error, res)
     }
   })
 
@@ -64,24 +71,7 @@ export const getRouter = () => {
         throw Error(`Le type de la ressource n'est pas connu`)
       }
     } catch (error) {
-      console.error('An error occured', JSON.stringify(error))
-      console.log(error)
-      if (error instanceof BusinessException) {
-        res.status(400).send(error)
-      } else {
-        res.status(500).send('An error occured')
-      }
-    }
-  })
-
-  resourcesRouter.post('/init', async (req, res) => {
-    try {
-      console.debug('ResourcesEBS - /init')
-      const resources = await initLBS()
-      res.send(resources)
-    } catch (error) {
-      console.error('An error occured', error)
-      res.status(500).send('An error occured')
+      handleException(error, res)
     }
   })
 

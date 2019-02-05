@@ -1,6 +1,10 @@
 import { MongoClient, ObjectId } from 'mongodb'
-import { resourcesInit } from './init/resources-init'
 import { db } from './db'
+import {
+  TechnicalException,
+  EntityNotFoundBusinessException,
+  ErrorDO
+} from 'iris-common'
 
 const url = 'mongodb://localhost:27020/'
 // const url = 'mongodb://10.178.150.3:27017/'
@@ -15,38 +19,73 @@ const connect = async () => {
 }
 
 export const findResources = async () => {
-  // Set up path
-  let result = db.collection('resources')
-  // Find documents
-  let querySnapshot = await result.get()
-  // Construct result
-  let results = []
-  querySnapshot.forEach(doc => {
-    results.push(doc.data())
-  })
-  // Return data
-  return results
+  try {
+    // Set up path
+    let result = db.collection('resources')
+    // Find documents
+    let querySnapshot = await result.get()
+    // Construct result
+    let results = []
+    querySnapshot.forEach(doc => {
+      results.push(doc.data())
+    })
+    // Return data
+    return results
+  } catch (e) {
+    console.log('Error while finding resources', e)
+    throw new TechnicalException(
+      new ErrorDO('N/A', 'N/A', 'Error while finding resources')
+    )
+  }
 }
 
 export const getResource = async resourceId => {
-  // Set up path
-  let result = db.collection('resources').doc(resourceId)
-  // Read document
-  let doc = await result.get()
-  // Return data
-  return doc.data()
+  try {
+    // Set up path
+    let result = db.collection('resources').doc(resourceId)
+    // Read document
+    let doc = await result.get()
+    if (doc.exists) {
+      // Return data
+      return doc.data()
+    } else {
+      throw new EntityNotFoundBusinessException(
+        new ErrorDO(
+          'id',
+          'resource.id.notFound',
+          `Resource (id: ${resourceId}) not found`
+        )
+      )
+    }
+  } catch (e) {
+    if (!e instanceof EntityNotFoundBusinessException) {
+      console.log('Error while getting resource', e)
+      throw new TechnicalException(
+        new ErrorDO('N/A', 'N/A', 'Error while getting resource')
+      )
+    } else {
+      throw e
+    }
+  }
 }
 
 export const createResource = async resourceBE => {
-  // Construct resource
-  let resource = JSON.parse(JSON.stringify(resourceBE))
-  // Set up path
-  let doc = db.collection('resources').doc()
-  resource.id = doc.id
-  // Create document
-  await doc.set(resource)
-  // Return data
-  return resource
+  try {
+    // Construct resource
+    let resource = JSON.parse(JSON.stringify(resourceBE))
+    // Set up path
+    let doc = db.collection('resources').doc()
+    resource.id = doc.id
+    // Create document
+    await doc.set(resource)
+    // Return data
+    return resource
+  } catch (e) {
+    console.log('Error while creating resource', e)
+    throw new TechnicalException(
+      new ErrorDO('N/A', 'N/A', 'Error while creating resource')
+    )
+  }
 }
 
 export const deleteResource = async resourceId => {
@@ -54,17 +93,27 @@ export const deleteResource = async resourceId => {
     // Set up path
     let doc = db.collection('resources').doc(resourceId)
     // Delete document
-    await doc.delete()
-  } catch (error) {
-    console.log('erreur lors de la suppression', error)
-  }
-}
+    let foundDoc = await doc.get()
 
-export const init = async () => {
-  const resourcesDB = await connect()
-  const newResources = await resourcesDB
-    .collection('Resources')
-    .insertMany(resourcesInit)
-  console.log(newResources.ops)
-  return newResources.ops
+    if (!foundDoc.exists) {
+      throw new EntityNotFoundBusinessException(
+        new ErrorDO(
+          'id',
+          'resource.id.notFound',
+          `Resource (id: ${resourceId}) not found`
+        )
+      )
+    } else {
+      await doc.delete()
+    }
+  } catch (e) {
+    if (!e instanceof EntityNotFoundBusinessException) {
+      console.log('Error while getting resource', e)
+      throw new TechnicalException(
+        new ErrorDO('N/A', 'N/A', 'Error while getting resource')
+      )
+    } else {
+      throw e
+    }
+  }
 }

@@ -2,8 +2,7 @@ import {
   findResources as findResourcesDAO,
   createResource as createResourceDAO,
   deleteResource as deleteResourceDAO,
-  getResource as getResourceDAO,
-  init as initDAO
+  getResource as getResourceDAO
 } from '../data/ResourcesDAO'
 import { checkRoomResourceBE } from './ValidatorLBS'
 
@@ -22,8 +21,4 @@ export const deleteResource = async resourceId => {
 export const createResource = async resourceBE => {
   checkRoomResourceBE(resourceBE)
   return await createResourceDAO(resourceBE)
-}
-
-export const init = async () => {
-  return await initDAO()
 }
