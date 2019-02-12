@@ -1,6 +1,9 @@
 import { ResourceTypeEnum } from '../objects/business/be/ResourceTypeEnum'
 import { MAX_NAME_LENGTH } from '../objects/business/be/ResourceBE'
-import { RoomResourceBE, MAX_SEATS_NUMBER } from '../objects/business/be/RoomResourceBE'
+import {
+  RoomResourceBE,
+  MAX_SEATS_NUMBER
+} from '../objects/business/be/RoomResourceBE'
 import {
   BusinessException,
   ErrorDO,
@@ -13,28 +16,39 @@ import {
  * @param {data} resourceBE resource to build
  * @throws {BusinessException} when type is missing or invalid
  **/
-export const buildResourceFromType = (data) => {
+export const buildResourceFromType = data => {
   if (!data.type) {
     // NO RESOURCE TYPE
     throw new BusinessException(
-      new ErrorDO('type', 'resource.type.required', 'Le type de la ressource est obligatoire.'))
+      new ErrorDO(
+        'type',
+        'resource.type.required',
+        'Le type de la ressource est obligatoire.'
+      )
+    )
   } else if (data.type == ResourceTypeEnum.ROOM) {
     // ROOM RESOURCE
     return new RoomResourceBE(data)
   } else {
     // RESOURCE TYPE UNKNOWN
     throw new BusinessException(
-      new ErrorDO('type', 'resource.type.invalid', 'Le type de la ressource est inconnu.'))
+      new ErrorDO(
+        'type',
+        'resource.type.invalid',
+        'Le type de la ressource est inconnu.'
+      )
+    )
   }
 }
 
 export const checkCapacityFilter = capacity => {
   const minCapacity = Number(capacity)
   if (!minCapacity) {
-    throw new BusinessException(new ErrorDO(
-      'minCapacity',
-      'filters.minCapacity.nan',
-      `nbSeatsAvailable filter (${filters.minCapacity}) is not a number`
+    throw new BusinessException(
+      new ErrorDO(
+        'minCapacity',
+        'filters.minCapacity.nan',
+        `nbSeatsAvailable filter (${filters.minCapacity}) is not a number`
       )
     )
   } else {

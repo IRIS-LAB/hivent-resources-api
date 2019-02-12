@@ -8,6 +8,27 @@ import { ResourceTypeEnum } from '../objects/business/be/ResourceTypeEnum'
 import { BusinessException } from 'iris-common'
 
 describe('ValidatorLBS', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  describe('checkResource', () => {
+    xit('should call checkRoomResourceBE when resource of type ROOM', () => {
+      let resourceBE = new RoomResourceBE({
+        name: 'name',
+        mail: 'mail@systeme-u.com',
+        nbSeatsAvailable: 12
+      })
+      let test = jest.spyOn(validatorLBS, 'checkRoomResourceBE')
+      // .mockImplementationOnce(jest.mock())
+      validatorLBS.checkResourceBE(resourceBE)
+      expect(test).toHaveBeenCalledTimes(1)
+
+      // expect(validatorLBS.checkRoomResourceBE).toHaveBeenCalledTimes(1)
+      // expect(validatorLBS.checkRoomResourceBE).toHaveBeenCalledWith(resourceBE)
+    })
+  })
+
   describe('checkRoomResource', () => {
     it('should throw no exception when roomresource is valid', () => {
       let resourceBE = new RoomResourceBE({
@@ -19,7 +40,7 @@ describe('ValidatorLBS', () => {
         validatorLBS.checkRoomResourceBE(resourceBE)
       }
       expect(err).not.toThrow()
-      expect(resourceBE.name).toBe('nerame')
+      expect(resourceBE.name).toBe('name')
       expect(resourceBE.type).toBe(ResourceTypeEnum.ROOM)
       expect(resourceBE.mail).toBe('mail@systeme-u.com')
       expect(resourceBE.nbSeatsAvailable).toBe(12)
