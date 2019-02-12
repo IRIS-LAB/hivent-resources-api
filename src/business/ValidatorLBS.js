@@ -55,7 +55,7 @@ export const checkResourceBE = resourceBE => {
 }
 
 // check a RoomResourceBE, throws BusinessException when RoomResource is invalid
-const checkRoomResourceBE = resourceBE => {
+export const checkRoomResourceBE = resourceBE => {
   let errors = []
   errors = [
     ...checkName(resourceBE),

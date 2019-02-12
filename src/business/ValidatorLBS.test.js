@@ -19,16 +19,14 @@ describe('ValidatorLBS', () => {
         validatorLBS.checkRoomResourceBE(resourceBE)
       }
       expect(err).not.toThrow()
-      expect(resourceBE.name).toBe('name')
+      expect(resourceBE.name).toBe('nerame')
       expect(resourceBE.type).toBe(ResourceTypeEnum.ROOM)
       expect(resourceBE.mail).toBe('mail@systeme-u.com')
       expect(resourceBE.nbSeatsAvailable).toBe(12)
       expect(resourceBE.projectorAvailable).toBe(false)
       expect(resourceBE.chromeboxAvailable).toBe(false)
     })
-  })
 
-  describe('checkRoomResource', () => {
     it('should throw an exception when roomresource is invalid', () => {
       let resourceBE = new RoomResourceBE({
         name: null,

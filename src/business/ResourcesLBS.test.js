@@ -16,12 +16,12 @@ describe('ResourcesLBS', () => {
 
   describe('createResource', () => {
     ResourcesDAO.createResource = jest.fn(() => resourceBE)
-    ValidatorLBS.checkRoomResourceBE = jest.fn()
+    ValidatorLBS.checkResourceBE = jest.fn()
 
     it('should call the createResourceDAO function', () => {
       let result = ResourcesLBS.createResource(resourceBE)
       expect(ResourcesDAO.createResource).toHaveBeenCalledTimes(1)
-      expect(ValidatorLBS.checkRoomResourceBE).toHaveBeenCalledTimes(1)
+      expect(ValidatorLBS.checkResourceBE).toHaveBeenCalledTimes(1)
     })
   })
 })
