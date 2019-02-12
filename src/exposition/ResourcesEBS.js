@@ -3,11 +3,10 @@ import {
   findResources as findResourcesLBS,
   createResource as createResourceLBS,
   getResource as getResourceLBS,
+  updateResource as updateResourceLBS,
   deleteResource as deleteResourceLBS
 } from '../business/ResourcesLBS'
-import { RoomResourceBE } from '../objects/business/be/RoomResourceBE'
-import { ResourceTypeEnum } from '../objects/business/be/ResourceTypeEnum'
-import { BusinessException, EntityNotFoundBusinessException } from 'iris-common'
+import { BusinessException, EntityNotFoundBusinessException, TechnicalException, ErrorDO } from 'iris-common'
 import { ExceptionHandler } from 'winston'
 
 const handleException = (error, res) => {
@@ -15,8 +14,11 @@ const handleException = (error, res) => {
     res.status(404).send(error)
   } else if (error instanceof BusinessException) {
     res.status(400).send(error)
-  } else {
+  } else if (error instanceof TechnicalException) {
     res.status(500).send(error)
+  } else {
+    console.log('A technical error occured', error)
+    res.status(500).send(new ErrorDO('', '500', 'A technical error occured'))
   }
 }
 
@@ -26,8 +28,8 @@ export const getRouter = () => {
   resourcesRouter.get('/', async (req, res) => {
     try {
       console.debug('GET Request received over /')
-      //res.json({ success: true })
-      res.send(await findResourcesLBS())
+      // filtres possibles : name, type, minCapacity
+      res.send(await findResourcesLBS(req.query))
     } catch (error) {
       handleException(error, res)
     }
@@ -41,35 +43,38 @@ export const getRouter = () => {
     }
   })
 
-  resourcesRouter.delete('/:resourceId', async (req, res) => {
+  /**
+   * POST /resource
+   * Resource creation
+   */
+  resourcesRouter.post('/', async (req, res) => {
     try {
-      res.send(await deleteResourceLBS(req.params.resourceId))
+      res.send(await createResourceLBS(req.body))
     } catch (error) {
       handleException(error, res)
     }
   })
 
   /**
-   * POST /resource
-   * Resource creation
-   *
+   * PUT /resource
+   * Resource update
    */
-  resourcesRouter.post('/', async (req, res) => {
+  resourcesRouter.put('/:resourceId', async (req, res) => {
     try {
-      console.debug('POST Request received /: ' + JSON.stringify(req.body))
+      console.log('EBS', req.body)
+      res.send(await updateResourceLBS(req.params.resourceId, req.body ))
+    } catch (error) {
+      handleException(error, res)
+    }
+  })
 
-      if (!req.body.type) {
-        // NO RESOURCE TYPE
-        throw Error('Le type de la ressource doit être renseigné')
-      } else if (req.body.type == ResourceTypeEnum.ROOM) {
-        // ROOM RESOURCE
-        const roomResourceBE = new RoomResourceBE(req.body)
-        console.debug(roomResourceBE)
-        res.send(await createResourceLBS(roomResourceBE))
-      } else {
-        // RESOURCE TYPE UNKNOWN
-        throw Error(`Le type de la ressource n'est pas connu`)
-      }
+  /**
+   * DELETE /resource
+   * Resource deletion
+   */
+  resourcesRouter.delete('/:resourceId', async (req, res) => {
+    try {
+      res.send(await deleteResourceLBS(req.params.resourceId))
     } catch (error) {
       handleException(error, res)
     }

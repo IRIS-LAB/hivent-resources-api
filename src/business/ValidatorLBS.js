@@ -1,6 +1,6 @@
 import { ResourceTypeEnum } from '../objects/business/be/ResourceTypeEnum'
 import { MAX_NAME_LENGTH } from '../objects/business/be/ResourceBE'
-import { MAX_SEATS_NUMBER } from '../objects/business/be/RoomResourceBE'
+import { RoomResourceBE, MAX_SEATS_NUMBER } from '../objects/business/be/RoomResourceBE'
 import {
   BusinessException,
   ErrorDO,
@@ -8,12 +8,54 @@ import {
 } from 'iris-common'
 
 /**
- * RoomResource Check
- * @function checkRoomResourceBE
- * @param {RoomResourceBE} resourceBE RoomResource to check
- * @throws {BusinessException} when RoomResource is invalid
+ * build a resource according to its type
+ * @function buildResourceFromType
+ * @param {data} resourceBE resource to build
+ * @throws {BusinessException} when type is missing or invalid
  **/
-export const checkRoomResourceBE = resourceBE => {
+export const buildResourceFromType = (data) => {
+  if (!data.type) {
+    // NO RESOURCE TYPE
+    throw new BusinessException(
+      new ErrorDO('type', 'resource.type.required', 'Le type de la ressource est obligatoire.'))
+  } else if (data.type == ResourceTypeEnum.ROOM) {
+    // ROOM RESOURCE
+    return new RoomResourceBE(data)
+  } else {
+    // RESOURCE TYPE UNKNOWN
+    throw new BusinessException(
+      new ErrorDO('type', 'resource.type.invalid', 'Le type de la ressource est inconnu.'))
+  }
+}
+
+export const checkCapacityFilter = capacity => {
+  const minCapacity = Number(capacity)
+  if (!minCapacity) {
+    throw new BusinessException(new ErrorDO(
+      'minCapacity',
+      'filters.minCapacity.nan',
+      `nbSeatsAvailable filter (${filters.minCapacity}) is not a number`
+      )
+    )
+  } else {
+    return minCapacity
+  }
+}
+
+/**
+ * Resource Check
+ * @function checkResourceBE
+ * @param {ResourceBE} resourceBE Resource to check
+ * @throws {BusinessException} when Resource is invalid
+ **/
+export const checkResourceBE = resourceBE => {
+  if (resourceBE.type == ResourceTypeEnum.ROOM) {
+    checkRoomResourceBE(resourceBE)
+  }
+}
+
+// check a RoomResourceBE, throws BusinessException when RoomResource is invalid
+const checkRoomResourceBE = resourceBE => {
   let errors = []
   errors = [
     ...checkName(resourceBE),
